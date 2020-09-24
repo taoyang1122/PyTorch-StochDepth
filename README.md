@@ -8,4 +8,4 @@ python train.py  \
 ```
 
 # Reference
-`- https://github.com/shamangary/Pytorch-Stochastic-Depth-Resnet`
+\- https://github.com/shamangary/Pytorch-Stochastic-Depth-Resnet
