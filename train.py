@@ -34,7 +34,7 @@ best_prec = 0
 
 if not os.path.exists('result'):
     os.makedirs('result')
-fdir = 'result/randdepth_resnet110_cos_cifar100_[1,0.8]'
+fdir = 'result/randdepth_resnet56_cifar100'
 if not os.path.exists(fdir):
     os.makedirs(fdir)
 logger = get_logger(os.path.join(fdir, 'train.log'))
@@ -51,8 +51,8 @@ def main():
         # model can be set to anyone that I have defined in models folder
         # note the model should match to the cifar type !
 
-        # model = resnet_randdepth.resnet56_cifar(num_classes=10)
-        model = resnet_randdepth.resnet110_cifar(num_classes=100)
+        model = resnet_randdepth.resnet56_cifar(num_classes=args.cifar_type)
+        # model = resnet_randdepth.resnet110_cifar(num_classes=args.cifar_type)
 
         # adjust the lr according to the model type
         # model_type = 1
@@ -60,7 +60,7 @@ def main():
         model = nn.DataParallel(model).cuda()
         criterion = nn.CrossEntropyLoss().cuda()
         optimizer = optim.SGD(model.parameters(), args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
-        # cudnn.benchmark = True
+        cudnn.benchmark = True
     else:
         print('Cuda is not available!')
         return
@@ -97,7 +97,7 @@ def main():
                                                   num_workers=2)
 
         test_dataset = torchvision.datasets.CIFAR10(
-            root='./data',
+            root='../data',
             train=False,
             download=True,
             transform=transforms.Compose([
